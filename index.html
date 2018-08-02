@@ -1,0 +1,66 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+ <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Timer</title>
+ </head>
+ <body>
+  <h1>Timer</h1>
+    <span id="timer">
+      <span id="day"></span>
+      <span class="smalltext">Д</span>
+      <span class="dots">:</span>
+      <span id="hour"></span>
+      <span class="smalltext">Ч</span>
+      <span class="dots">:</span>
+      <span id="min"></span>
+      <span class="smalltext">М</span>
+      <span class="dots">:</span>
+      <span id="sec"></span>
+      <span class="smalltext">С</span>
+    </span>
+<span id="time-over"></span>
+
+
+<script>
+
+    var montharray = new Array("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec");
+
+    function countdown(yr, m, d) {
+      var theyear = yr; var themonth = m; var theday = d;
+      var today = new Date();
+      var todayy = today.getYear();
+      if (todayy < 1000) todayy += 1900;
+      var todaym = today.getMonth();
+      var todayd = today.getDate();
+      var todayh = today.getHours();
+      var todaymin = today.getMinutes();
+      var todaysec = today.getSeconds();
+      var todaystring = montharray[todaym] + " " + todayd + ", " + todayy + " " + todayh + ":" + todaymin + ":" + todaysec;
+
+      var futurestring = montharray[m - 1] + " " + d + ", " + yr;
+
+      var dd = Date.parse(futurestring) - Date.parse(todaystring);
+      var dday = Math.floor(dd / (60 * 60 * 1000 * 24) * 1);
+      var dhour = Math.floor((dd % (60 * 60 * 1000 * 24)) / (60 * 60 * 1000) * 1);
+      var dmin = Math.floor(((dd % (60 * 60 * 1000 * 24)) % (60 * 60 * 1000)) / (60 * 1000) * 1);
+      var dsec = Math.floor((((dd % (60 * 60 * 1000 * 24)) % (60 * 60 * 1000)) % (60 * 1000)) / 1000 * 1);
+
+      if (dday == 0 && dhour == 0 && dmin == 0 && dsec == 1 || dday < 0) {
+          document.getElementById('time-over').innerHTML = 'Время вышло';
+          document.getElementById('timer').style.display = 'none';
+      }
+      else
+          document.getElementById('day').innerHTML = dday;
+          document.getElementById('hour').innerHTML = dhour;
+          document.getElementById('min').innerHTML = dmin;
+          document.getElementById('sec').innerHTML = dsec;
+          setTimeout(function () { countdown(theyear, themonth, theday) }, 1000);
+      }
+      
+    //choose date for timer
+    countdown(2019,8, 1);
+</script>
+
+ </body>
+</html>
